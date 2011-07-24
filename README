@@ -1,0 +1,5 @@
+Osmosis Layers is an open source  projekt by moenk 
+trying to build layers for GeoServer on a PostGIS
+Databasse. An Osmosis-Snapshot of OpenStreetMap is
+converted by several SQL-Files to a separate Table
+containing the layer in usable form.
