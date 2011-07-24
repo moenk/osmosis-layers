@@ -1,7 +1,7 @@
 begin transaction;
 
 delete from geometry_columns where f_table_name='postal_code';
-
+drop index if exists idx_postal_code;
 drop table if exists postal_code;
 
 create table postal_code as 
@@ -26,6 +26,8 @@ insert into geometry_columns
 (f_table_catalog, f_table_schema, f_table_name, f_geometry_column, coord_dimension, srid, "type") 
 values 
 (' ', 'public', 'postal_code', 'geom', 2, 4326, 'POLYGON');
+
+create index idx_postal_code on postal_code using gist(geom);
 
 commit;
 

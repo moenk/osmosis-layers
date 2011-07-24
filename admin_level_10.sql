@@ -1,7 +1,7 @@
 begin transaction;
 
 delete from geometry_columns where f_table_name='admin_level_10';
-
+drop index if exists idx_admin_level_10;
 drop table if exists admin_level_10;
 
 create table admin_level_10 as 
@@ -29,6 +29,8 @@ insert into geometry_columns
 (f_table_catalog, f_table_schema, f_table_name, f_geometry_column, coord_dimension, srid, "type") 
 values 
 (' ', 'public', 'admin_level_10', 'geom', 2, 4326, 'POLYGON');
+
+create index idx_admin_level_10 on admin_level_10 using gist(geom);
 
 commit;
 
