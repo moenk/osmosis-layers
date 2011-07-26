@@ -5,8 +5,10 @@ drop index if exists idx_water;
 drop table if exists water;
 
 create table water as 
-select id, tags->'name' as name 
-from relations where tags->'natural'='water' and tags->'type'='multipolygon';
+select id, tags->'name' as name, tags->'natural' as watertype
+from relations 
+where (tags->'natural'='water' and tags->'type'='multipolygon')
+or (tags->'waterway'='riverbank' and tags->'type'='multipolygon');
 
 alter table water add column geom geometry;
 
@@ -21,9 +23,9 @@ update water as x set geom=(
 );
 
 insert into water 
-select id, tags->'name' as name, st_buildarea(linestring) as geom
+select id, tags->'name' as name, tags->'natural' as watertype, st_buildarea(linestring) as geom
 from ways as w 
-where w.tags->'natural'='water' 
+where w.tags->'natural'='water' or w.tags->'waterway'='river' or w.tags->'waterway'='riverbank'
 and st_numpoints(w.linestring)>3;
 
 insert into geometry_columns 
