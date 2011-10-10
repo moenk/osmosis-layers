@@ -5,10 +5,12 @@ drop index if exists idx_building;
 drop table if exists building;
 
 create table building as 
-select id, tags->'addr:housenumber' as housenumber, st_buildarea(linestring) as geom
+select id, tags->'addr:housenumber' as housenumber, tags->'height' as height, st_buildarea(linestring) as geom
 from ways as w 
 where w.tags->'building'!='' 
 and st_numpoints(w.linestring)>3;
+
+update building set height='5m' where height is null;
 
 insert into geometry_columns 
 (f_table_catalog, f_table_schema, f_table_name, f_geometry_column, coord_dimension, srid, "type") 

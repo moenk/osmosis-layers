@@ -7,8 +7,9 @@ drop table if exists water;
 create table water as 
 select id, tags->'name' as name, tags->'natural' as watertype
 from relations 
-where (tags->'natural'='water' and tags->'type'='multipolygon')
-or (tags->'waterway'='riverbank' and tags->'type'='multipolygon');
+where tags->'natural'='water'
+or tags->'waterway'='riverbank' 
+or tags->'landuse'='reservoir';
 
 alter table water add column geom geometry;
 

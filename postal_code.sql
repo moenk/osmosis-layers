@@ -5,7 +5,7 @@ drop index if exists idx_postal_code;
 drop table if exists postal_code;
 
 create table postal_code as 
-select id, tags->'postal_code' as postal_code, tags->'note' as note 
+select id, tags->'postal_code' as postal_code, tags->'note' as name
 from relations where tags->'boundary'='postal_code' 
 or (tags->'boundary'='administrative' and tags->'postal_code'!='') 
 order by postal_code;
